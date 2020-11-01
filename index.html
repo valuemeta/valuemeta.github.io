@@ -78,13 +78,11 @@
       // Select the result of the stacked deck
       var selected_card = chance.weighted(divination_cards, divination_card_probabilities);
 
-      var selected_card_tier = divination_card_tiers[divination_cards.indexOf(name)];
-
       // Places the card down as a UI element
       placeDivinationCard(selected_card)
 
       // Play the sound if applicable
-      switch (selected_card_tier) {
+      switch (divination_card_tiers[divination_cards.indexOf(name)]) {
         case 1:
           var audio = new Audio("https://valuemeta.github.io/AlertSound6.mp3");
           audio.play();
