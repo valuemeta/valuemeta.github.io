@@ -228,7 +228,7 @@
         download: true,
         complete: function (results) {
           var divination_card_data = results.data;
-          console.log(typeof(divination_card_data));
+          console.log(Array.isArray(divination_card_data));
 
           // Place them into the arrays
           for (i = 1; i < divination_card_data.length; i++) {
