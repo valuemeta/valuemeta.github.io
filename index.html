@@ -233,10 +233,11 @@
           var divination_card_data = results.data;
 
           // Place them into the arrays
+          // Convert the things that should be numbers into numbers
           for (i = 1; i < divination_card_data.length; i++) {
             divination_cards[i - 1] = divination_card_data[i][0];
-            divination_card_probabilities[i - 1] = divination_card_data[i][1];
-            divination_card_tiers[i - 1] = divination_card_data[i][2];
+            divination_card_probabilities[i - 1] = Number.parseFloat(divination_card_data[i][1]);
+            divination_card_tiers[i - 1] = Number.parseFloat(divination_card_data[i][2]);
           }
 
           // Load the loot page
