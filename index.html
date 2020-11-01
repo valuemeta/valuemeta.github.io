@@ -220,18 +220,6 @@
 
     }
 
-    // Reads a csv and converts into an array of arrays
-    function read_csv(filepath) {
-
-      Papa.parse(filepath, {
-        download: true,
-        complete: function (results) {
-          return results.data;
-        }
-      });
-
-    }
-
     // Initializes the game
     function initialize() {
 
@@ -239,7 +227,13 @@
       transition('loot');
 
       // Load csv into arrays in memory
-      var divination_card_data = read_csv("SampleDivinationCardData.csv");
+
+      Papa.parse(filepath, {
+        download: true,
+        complete: function (results) {
+          var divination_card_data = results.data;
+        }
+      });
 
       // Place them into the arrays
       for (i = 0; i < divination_card_data.length; i++) {
