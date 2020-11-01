@@ -79,7 +79,7 @@ body {
   height: 26px;
   margin: -6px 0;
   vertical-align: middle;
-  background: url("MiniMapIcon_FullSpriteV2.png") -257.59999999999997px -115.8px;
+  background: url("images/MiniMapIcon_FullSpriteV2.png") -257.59999999999997px -115.8px;
   background-size: 3730%;
   display: inline-block;
 }
@@ -105,7 +105,7 @@ body {
   height: 26px;
   margin: -6px 0;
   vertical-align: middle;
-  background: url("MiniMapIcon_FullSpriteV2.png") -257.59999999999997px -144.25px;
+  background: url("images/MiniMapIcon_FullSpriteV2.png") -257.59999999999997px -144.25px;
   background-size: 3730%;
   display: inline-block;
 }
@@ -131,7 +131,7 @@ body {
   height: 26px;
   margin: -6px 0;
   vertical-align: middle;
-  background: url("MiniMapIcon_FullSpriteV2.png") -428px -144.25px;
+  background: url("images/MiniMapIcon_FullSpriteV2.png") -428px -144.25px;
   background-size: 3730%;
   display: inline-block;
 }
@@ -157,7 +157,7 @@ body {
   height: 26px;
   margin: -6px 0;
   vertical-align: middle;
-  background: url("MiniMapIcon_FullSpriteV2.png") -342.79999999999995px -144.25px;
+  background: url("images/MiniMapIcon_FullSpriteV2.png") -342.79999999999995px -144.25px;
   background-size: 3730%;
   display: inline-block;
 }
