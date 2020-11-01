@@ -75,13 +75,7 @@
       // Select the result of the stacked deck
       var selected_card = chance.weighted(divination_cards, divination_card_probabilities);
 
-      // Find the selected card's tier in the loot filter
-      for (i = 1; i < 7; i++) {
-        if (divination_cards.slice(divination_card_tiers[i - 1], divination_card_tiers[i]).includes(selected_card)) {
-          var selected_card_tier = i;
-          break;
-        }
-      }
+      var selected_card_tier = divination_card_tiers[divination_cards.indexOf(name)];
 
       // Places the card down as a UI element
       placeDivinationCard(selected_card)
