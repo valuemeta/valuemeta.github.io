@@ -29,7 +29,7 @@
     var divination_card_tiers = [];
 
     // Div Card Counts
-    var divination_card_counts = [0, 0, 0, 0, 0, 0, 0]
+    var divination_card_counts = [];
 
     // Places a divination card down while the loot tab is open according to its name
     function placeDivinationCard(name) {
@@ -200,13 +200,13 @@
           </a>
           </nav>`;
 
-          // Add to the page and update the divination card counts
+          // Add the divination card count elements to the page
           for (i = 0; i < divination_cards.length; i++) {
             html = html + `<a class="T5_divination_card_text" id="` + divination_cards[i] + ` Count"></a><br>`
           }
           document.body.innerHTML = html;
 
-          // Set the card counts to the variable
+          // Set the card counts to the variables and add formatting
           for (i = 0; i < divination_cards.length; i++) {
             document.getElementById(divination_cards[i] + " Count").innerHTML = divination_card_counts[i] + " " + `<div class="divination_card_icon"></div>` + " " + divination_cards[i];
           }
@@ -238,6 +238,10 @@
             divination_card_probabilities[i - 1] = Number.parseFloat(divination_card_data[i][1]);
             divination_card_tiers[i - 1] = Number.parseFloat(divination_card_data[i][2]);
           }
+
+          // Set the card counts to 0 depending on the number of cards
+          divination_card_counts.length = divination_cards.length;
+          divination_card_counts.fill(0);
         }
       });
 
