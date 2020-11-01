@@ -9,7 +9,7 @@
   <script src="papaparse.min.js"></script>
 </head>
 
-<body onload="transition('loot');">
+<body onload="initialize();">
 
   <script>
 
@@ -21,9 +21,9 @@
     var current_page = "start";
 
     // Divination card data
-    var divination_cards = ["House of Mirrors", "The Doctor", "The Void", "The Cartographer", "Emperor's Luck", "Rain of Chaos", "The Carrion Crow"];
-    var divination_card_probabilities = [0.3, 0.3, 0.3, 1, 1, 1, 1];
-    var divination_card_tiers = [1, 1, 2, 3, 4, 5, 6];
+    var divination_cards = [];
+    var divination_card_probabilities = [];
+    var divination_card_tiers = [];
 
     // Div Card Counts
     var divination_card_counts = [0, 0, 0, 0, 0, 0, 0]
@@ -245,7 +245,7 @@
       for (i = 0; i < divination_card_data.length; i++) {
         divination_cards[i] = divination_card_data[i][0];
         divination_card_probabilities[i] = divination_card_data[i][1];
-
+        divination_card_tiers[i] = divination_card_data[i][2];
       }
 
     }
