@@ -4,7 +4,7 @@ body {
 
 @font-face {
   font-family: 'PoEFont'; /*a name to be used later*/
-  src: url("/fonts/Fontin-SmallCaps.ttf"); /*URL to font*/
+  src: url("fonts/Fontin-SmallCaps.ttf"); /*URL to font*/
   font-stretch: condensed;
 }
 
