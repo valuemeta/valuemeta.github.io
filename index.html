@@ -13,6 +13,9 @@
 
   <script>
 
+    // Global test variable
+    var test = [];
+
     // Array for saving the loot since loot is converted between visual
     // and array based formats depending on tab
     var saved_loot = [];
@@ -228,7 +231,7 @@
         download: true,
         complete: function (results) {
           var divination_card_data = results.data;
-          console.log(divination_card_data[0]);
+          test = divination_card_data;
 
           // Place them into the arrays
           for (i = 1; i < divination_card_data.length; i++) {
