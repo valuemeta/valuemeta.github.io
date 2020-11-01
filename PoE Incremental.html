@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <title>PoE Incremental</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <script src="chance.js"></script>
+  <script src="papaparse.min.js"></script>
+</head>
+
+<body onload="transition('loot');">
+
+  <script>
+
+    // Array for saving the loot since loot is converted between visual
+    // and array based formats depending on tab
+    var saved_loot = [];
+
+    // Initializes the start page type
+    var current_page = "start";
+
+    // Divination card data
+    var divination_cards = ["House of Mirrors", "The Doctor", "The Void", "The Cartographer", "Emperor's Luck", "Rain of Chaos", "The Carrion Crow"];
+    var probabilities = [0.3, 0.3, 0.3, 1, 1, 1, 1];
+    var breakpoints = [0, 2, 3, 4, 5, 6, 7];
+
+    // Div Card Counts
+    var divination_card_counts = [0, 0, 0, 0, 0, 0, 0]
+
+    // Places a divination card down while the loot tab is open according to its name
+    function placeDivinationCard(name) {
+
+      // Initialize the outer UI element
+      var card = document.createElement("div");
+      card.className = "item_outer_container";
+      card.setAttribute("onclick", "pickUpItem(this)")
+
+      // Find the selected card's tier in the loot filter
+      for (i = 1; i < 7; i++) {
+        if (divination_cards.slice(breakpoints[i - 1], breakpoints[i]).includes(name)) {
+          var selected_card_tier = i;
+          break;
+        }
+      }
+
+      // Find the selected card's icon in the loot filter
+      switch (selected_card_tier) {
+        case 1:
+          var selected_card_icon = " red_star";
+          break;
+        case 2:
+          var selected_card_icon = " red_triangle";
+          break;
+        case 3:
+          var selected_card_icon = " yellow_triangle";
+          break;
+        case 4:
+          var selected_card_icon = " white_triangle";
+          break;
+        default:
+          var selected_card_icon = "";
+      }
+
+      // Make the UI elements look like a drop
+      card.innerHTML = `
+      <div class="T` + selected_card_tier + `_divination_card_inner_container ` + "bright " + "noselect" + `">
+      <label class="T` + selected_card_tier + `_divination_card_text">
+      <div class="` + selected_card_icon + `_image"></div> ` + name +
+        `</label>
+      </div>`;
+
+      // Drop the card
+      document.getElementById("LootContainer").appendChild(card);
+
+    }
+
+    // Opens a stacked deck when the loot tab is open
+    function open_stacked_deck() {
+
+      // Select the result of the stacked deck
+      var selected_card = chance.weighted(divination_cards, probabilities);
+
+      // Find the selected card's tier in the loot filter
+      for (i = 1; i < 7; i++) {
+        if (divination_cards.slice(breakpoints[i - 1], breakpoints[i]).includes(selected_card)) {
+          var selected_card_tier = i;
+          break;
+        }
+      }
+
+      // Places the card down as a UI element
+      placeDivinationCard(selected_card)
+
+      // Play the sound if applicable
+      switch (selected_card_tier) {
+        case 1:
+          var audio = new Audio("AlertSound6.mp3");
+          audio.play();
+          break;
+        case 2:
+          var audio = new Audio("AlertSound1.mp3");
+          audio.play();
+          break;
+        case 3: // Fallthrough
+        case 4:
+          var audio = new Audio("AlertSound2.mp3");
+          audio.play();
+          break;
+        default:
+      }
+    }
+
+    // Event of picking up an item on the loot page
+    function pickUpItem(item) {
+
+      // Remove the item
+      item.remove();
+
+      // Get and clean the card name
+      var item_name = item.childNodes[1].textContent.trim();
+
+      // Increment the count
+      divination_card_counts[divination_cards.indexOf(item_name)]++;
+
+      // Update the visual element if the current page is divination cards
+      if (current_page == "divination_cards") {
+        document.getElementById(item_name + " Count").innerHTML = divination_card_counts[divination_cards.indexOf(item_name)];
+      }
+
+    }
+
+    // Transitions between tabs
+    function transition(future_page) {
+
+      // Check if its redundant to switch tabs
+      if (current_page == future_page) {
+        return;
+      }
+
+      // Cleans up currently loaded page and saves any necessary data
+      switch (current_page) {
+
+        case "loot":
+
+          // Save all the loot in the loot tab into an array of names
+          var nodes = document.getElementById("LootContainer").childNodes;
+
+          // Clear the previous saved loot to make sure there's a clean variable to store the new loot
+          saved_loot = [];
+
+          // Set the saved loot to the items currently dropped on the page
+          for (i = 0; i < nodes.length; i++) {
+            saved_loot[i] = nodes[i].childNodes[1].childNodes[1].childNodes[2].textContent;
+          }
+
+          // Remove whitespace due to the way aesthetics was achieved with a space in front
+          for (i = 0; i < saved_loot.length; i++) {
+            saved_loot[i] = saved_loot[i].trim();
+          }
+
+          break;
+
+        case "divination_cards":
+          break;
+
+        case "start":
+          console.log("Application started!")
+          break;
+
+        default:
+          console.log("Current Page Invalid Error")
+      }
+
+      // Loads in the wanted page
+      switch (future_page) {
+
+        case "loot":
+
+          // Set the base layout of the page
+          document.body.innerHTML = `
+          <nav class="NavigationBar">
+          <a class="ShowLoot" href="javascript:void(0);" onclick="transition('loot');">
+          Loot
+          </a>
+          <a class="ShowDivinationCards" href="javascript:void(0);" onclick="transition('divination_cards');">
+          Divination Cards
+          </a>
+          </nav>
+          <button type="button" class="stacked_deck" onclick="open_stacked_deck();"></button>
+          <div class="LootSimulator" id="LootContainer"></div>`;
+
+          // Put all the saved loot onto the screen
+          for (j = 0; j < saved_loot.length; j++) {
+            placeDivinationCard(saved_loot[j]);
+          }
+
+          break;
+
+        case "divination_cards":
+
+          // Set the base layout of the page
+          var html = `
+          <nav class="NavigationBar">
+          <a class="ShowLoot" href="javascript:void(0);" onclick="transition('loot');">
+          Loot
+          </a>
+          <a class="ShowDivinationCards" href="javascript:void(0);" onclick="transition('divination_cards');">
+          Divination Cards
+          </a>
+          </nav>`;
+
+          // Add to the page and update the divination card counts
+          for (i = 0; i < divination_cards.length; i++) {
+            html = html + `<a class="T5_divination_card_text" id="` + divination_cards[i] + ` Count"></a><br>`
+          }
+          document.body.innerHTML = html;
+
+          // Set the card counts to the variable
+          for (i = 0; i < divination_cards.length; i++) {
+            document.getElementById(divination_cards[i] + " Count").innerHTML = divination_card_counts[i] + " " + `<div class="divination_card_icon"></div>` + " " + divination_cards[i];
+          }
+
+          break;
+
+        default:
+          console.log("Future Page Invalid Error")
+      }
+
+      // Set the current page to the future page as we are done modifying the page
+      current_page = future_page;
+
+    }
+
+    // Reads a csv and converts into an array of arrays
+    function read_csv(filepath) {
+
+      Papa.parse(filepath, {
+        download: true,
+        complete: function (results) {
+          console.log(results);
+        }
+      });
+
+    }
+
+  </script>
+
+
+</body>
+
+
+
+</html>
