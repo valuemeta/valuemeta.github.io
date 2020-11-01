@@ -4,12 +4,12 @@ body {
 
 @font-face {
   font-family: 'PoEFont'; /*a name to be used later*/
-  src: url("Fontin-SmallCaps.ttf"); /*URL to font*/
+  src: url("/fonts/Fontin-SmallCaps.ttf"); /*URL to font*/
   font-stretch: condensed;
 }
 
 .stacked_deck {
-  background-image: url("Stacked_Deck.png");
+  background-image: url("images/Stacked_Deck.png");
   background-repeat: no-repeat;
   background-color: transparent;
   height:78px;
