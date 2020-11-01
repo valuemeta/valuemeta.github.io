@@ -223,11 +223,7 @@
     // Initializes the game
     function initialize() {
 
-      // Load the loot page
-      transition('loot');
-
       // Load csv into arrays in memory
-
       Papa.parse(filepath, {
         download: true,
         complete: function (results) {
@@ -243,6 +239,8 @@
         }
       });
 
+      // Load the loot page
+      transition('loot');
 
     }
 
