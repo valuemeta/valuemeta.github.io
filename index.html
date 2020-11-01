@@ -227,7 +227,7 @@
     function initialize() {
 
       // Load csv into arrays in memory
-      Papa.parse("https://valuemeta.github.io/SampleDivinationCardData.csv", {
+      Papa.parse("https://valuemeta.github.io/data/SampleDivinationCardData.csv", {
         download: true,
         complete: function (results) {
           var divination_card_data = results.data;
