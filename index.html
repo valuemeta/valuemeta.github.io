@@ -84,16 +84,16 @@
       // Play the sound if applicable
       switch (divination_card_tiers[divination_cards.indexOf(selected_card)]) {
         case 1:
-          var audio = new Audio("AlertSound6.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound6.mp3");
           audio.play();
           break;
         case 2:
-          var audio = new Audio("AlertSound1.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound1.mp3");
           audio.play();
           break;
         case 3: // Fallthrough
         case 4:
-          var audio = new Audio("AlertSound2.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound2.mp3");
           audio.play();
           break;
         default:
@@ -238,12 +238,11 @@
             divination_card_probabilities[i - 1] = Number.parseFloat(divination_card_data[i][1]);
             divination_card_tiers[i - 1] = Number.parseFloat(divination_card_data[i][2]);
           }
-
-          // Load the loot page
-          transition('loot');
-
         }
       });
+
+      // Load the loot page
+      transition('loot');
 
     }
 
