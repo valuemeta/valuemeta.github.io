@@ -22,8 +22,8 @@
 
     // Divination card data
     var divination_cards = ["House of Mirrors", "The Doctor", "The Void", "The Cartographer", "Emperor's Luck", "Rain of Chaos", "The Carrion Crow"];
-    var probabilities = [0.3, 0.3, 0.3, 1, 1, 1, 1];
-    var breakpoints = [0, 2, 3, 4, 5, 6, 7];
+    var divination_card_probabilities = [0.3, 0.3, 0.3, 1, 1, 1, 1];
+    var divination_card_tiers = [1, 1, 2, 3, 4, 5, 6];
 
     // Div Card Counts
     var divination_card_counts = [0, 0, 0, 0, 0, 0, 0]
@@ -36,13 +36,7 @@
       card.className = "item_outer_container";
       card.setAttribute("onclick", "pickUpItem(this)")
 
-      // Find the selected card's tier in the loot filter
-      for (i = 1; i < 7; i++) {
-        if (divination_cards.slice(breakpoints[i - 1], breakpoints[i]).includes(name)) {
-          var selected_card_tier = i;
-          break;
-        }
-      }
+      var selected_card_tier = divination_card_tiers[divination_cards.indexOf(name)];
 
       // Find the selected card's icon in the loot filter
       switch (selected_card_tier) {
@@ -79,11 +73,11 @@
     function open_stacked_deck() {
 
       // Select the result of the stacked deck
-      var selected_card = chance.weighted(divination_cards, probabilities);
+      var selected_card = chance.weighted(divination_cards, divination_card_probabilities);
 
       // Find the selected card's tier in the loot filter
       for (i = 1; i < 7; i++) {
-        if (divination_cards.slice(breakpoints[i - 1], breakpoints[i]).includes(selected_card)) {
+        if (divination_cards.slice(divination_card_tiers[i - 1], divination_card_tiers[i]).includes(selected_card)) {
           var selected_card_tier = i;
           break;
         }
@@ -238,9 +232,27 @@
       Papa.parse(filepath, {
         download: true,
         complete: function (results) {
-          console.log(results);
+          return results.data;
         }
       });
+
+    }
+
+    // Initializes the game
+    function initialize() {
+
+      // Load the loot page
+      transition('loot');
+
+      // Load csv into arrays in memory
+      var divination_card_data = read_csv("SampleDivinationCardData.csv");
+
+      // Place them into the arrays
+      for (i = 0; i < divination_card_data.length; i++) {
+        divination_cards[i] = divination_card_data[i][0];
+        divination_card_probabilities[i] = divination_card_data[i][1];
+
+      }
 
     }
 
