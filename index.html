@@ -3,11 +3,16 @@
 <html lang="en">
 
 <head>
+
   <title>PoE Incremental</title>
+
   <link rel="stylesheet" href="stylesheet.css">
+
   <link rel="shortcut icon" href="images/favicon.ico">
+
   <script src="scripts/chance.js"></script>
   <script src="scripts/papaparse.min.js"></script>
+
 </head>
 
 <body onload="initialize();">
@@ -163,23 +168,25 @@
           console.log("Current Page Invalid Error")
       }
 
+      // Start with the navigation bar
+      var html = `
+      <nav class="NavigationBar">
+        <a class="ShowLoot" href="" onclick="transition('loot');">Loot</a>
+        <a class="ShowDivinationCards" href="" onclick="transition('loot');">Divination Cards</a>
+      </nav>
+      `;
+
       // Loads in the wanted page
       switch (future_page) {
 
         case "loot":
 
-          // Set the base layout of the page
-          document.body.innerHTML = `
-          <nav class="NavigationBar">
-          <a class="ShowLoot" href="javascript:void(0);" onclick="transition('loot');">
-          Loot
-          </a>
-          <a class="ShowDivinationCards" href="javascript:void(0);" onclick="transition('divination_cards');">
-          Divination Cards
-          </a>
-          </nav>
+          // Add stacked deck button and the loot simulator
+          html = html + `
           <button type="button" class="stacked_deck" onclick="open_stacked_deck();"></button>
-          <div class="LootSimulator" id="LootContainer"></div>`;
+          <div class="LootSimulator" id="LootContainer"></div>
+          `;
+          document.body.innerHTML = html;
 
           // Put all the saved loot onto the screen
           for (j = 0; j < saved_loot.length; j++) {
@@ -189,17 +196,6 @@
           break;
 
         case "divination_cards":
-
-          // Set the base layout of the page
-          var html = `
-          <nav class="NavigationBar">
-          <a class="ShowLoot" href="javascript:void(0);" onclick="transition('loot');">
-          Loot
-          </a>
-          <a class="ShowDivinationCards" href="javascript:void(0);" onclick="transition('divination_cards');">
-          Divination Cards
-          </a>
-          </nav>`;
 
           // Add the divination card count elements to the page
           for (i = 0; i < divination_cards.length; i++) {
@@ -253,7 +249,6 @@
     }
 
   </script>
-
 
 </body>
 
