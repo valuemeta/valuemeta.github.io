@@ -82,7 +82,7 @@
       placeDivinationCard(selected_card)
 
       // Play the sound if applicable
-      switch (divination_card_tiers[divination_cards.indexOf(name)]) {
+      switch (divination_card_tiers[divination_cards.indexOf(selected_card)]) {
         case 1:
           var audio = new Audio("AlertSound6.mp3");
           audio.play();
