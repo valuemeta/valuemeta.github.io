@@ -86,16 +86,16 @@
       // Play the sound if applicable
       switch (selected_card_tier) {
         case 1:
-          var audio = new Audio("AlertSound6.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound6.mp3");
           audio.play();
           break;
         case 2:
-          var audio = new Audio("AlertSound1.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound1.mp3");
           audio.play();
           break;
         case 3: // Fallthrough
         case 4:
-          var audio = new Audio("AlertSound2.mp3");
+          var audio = new Audio("https://valuemeta.github.io/AlertSound2.mp3");
           audio.play();
           break;
         default:
@@ -115,6 +115,7 @@
       divination_card_counts[divination_cards.indexOf(item_name)]++;
 
       // Update the visual element if the current page is divination cards
+      // NEVER HAPPENS DUMMY
       if (current_page == "divination_cards") {
         document.getElementById(item_name + " Count").innerHTML = divination_card_counts[divination_cards.indexOf(item_name)];
       }
