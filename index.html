@@ -174,7 +174,10 @@
         <a class="ShowLoot" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
         <a class="ShowDivinationCards" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
       </nav>
+      <div id="main_content" class="main_content">
+      </div>
       `;
+      document.body.innerHTML = html;
 
       // Loads in the wanted page
       switch (future_page) {
@@ -182,11 +185,10 @@
         case "loot":
 
           // Add stacked deck button and the loot simulator
-          html = html + `
+          document.getElementById("main_content").innerHTML = `
           <button type="button" class="stacked_deck" onclick="open_stacked_deck();"></button>
           <div class="LootSimulator" id="LootContainer"></div>
           `;
-          document.body.innerHTML = html;
 
           // Put all the saved loot onto the screen
           for (j = 0; j < saved_loot.length; j++) {
@@ -198,10 +200,11 @@
         case "divination_cards":
 
           // Add the divination card count elements to the page
+          var html = "";
           for (i = 0; i < divination_cards.length; i++) {
             html = html + `<a class="T5_divination_card_text" id="` + divination_cards[i] + ` Count"></a><br>`
           }
-          document.body.innerHTML = html;
+          document.getElementById("main_content").innerHTML = html;
 
           // Set the card counts to the variables and add formatting
           for (i = 0; i < divination_cards.length; i++) {
