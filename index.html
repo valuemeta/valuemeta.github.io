@@ -190,7 +190,6 @@
         case "loot":
 
           // Add stacked deck button and the loot simulator
-          // TODO: Loot Displayer when hovered over in bottom right corner of body
           document.getElementById("main_content").innerHTML = `
           <button type="button" class="stacked_deck" onclick="open_stacked_deck();"></button>
           <div class="LootSimulator" id="LootContainer"></div>
@@ -259,6 +258,7 @@
     }
 
     // Show the actual divination card when hovered over in loot tab
+    // TODO: Fix Text Size
     function lootHoverOver(element) {
 
       // Get and clean the card name
