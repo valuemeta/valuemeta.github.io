@@ -43,7 +43,9 @@
       // Initialize the outer UI element
       var card = document.createElement("div");
       card.className = "item_outer_container";
-      card.setAttribute("onclick", "pickUpItem(this)")
+      card.setAttribute("onclick", "pickUpItem(this);")
+      card.setAttribute("onmouseover", "lootHoverOver(this);")
+      card.setAttribute("onmouseout", "lootHoverOut();")
 
       var selected_card_tier = divination_card_tiers[divination_cards.indexOf(name)];
 
@@ -111,6 +113,9 @@
 
       // Remove the item
       item.remove();
+
+      // Remove the displayer
+      lootHoverOut(item);
 
       // Get and clean the card name
       var item_name = item.childNodes[1].textContent.trim();
@@ -189,7 +194,7 @@
           document.getElementById("main_content").innerHTML = `
           <button type="button" class="stacked_deck" onclick="open_stacked_deck();"></button>
           <div class="LootSimulator" id="LootContainer"></div>
-          <div class="LootDisplayer" id="LootDisplayer">HIII</div>
+          <div class="LootDisplayer" id="LootDisplayer"></div>
           `;
 
           // Put all the saved loot onto the screen
@@ -251,6 +256,25 @@
       // BEWARE OF LETTING PLAYERS PLAY BEFORE THE GAME IS DONE LOADING
       transition('loot');
 
+    }
+
+    // Show the actual divination card when hovered over in loot tab
+    function lootHoverOver(element) {
+
+      // Get and clean the card name
+      var item_name = element.childNodes[1].textContent.trim();
+
+      document.getElementById("LootDisplayer").innerHTML = `
+      <div class="divination_card_art"></div>
+      <div class="divination_card_frame"></div>
+      <div class="divination_card_name noselect">` + item_name + `</div>
+      `
+      document.getElementById("LootDisplayer").style.display = "block";
+    }
+
+    // Remove the divination card when hovered over in loot tab
+    function lootHoverOut() {
+      //document.getElementById("LootDisplayer").style.display = "none";
     }
 
   </script>

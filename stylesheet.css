@@ -27,7 +27,7 @@ body {
   height: 650px;
   margin: 20px 0 0 0;
   position: relative;
-  left: 500px;
+  left: 0px;
   text-align: center;
   border: 1px solid black;
   color: #a38d6d;
@@ -241,11 +241,47 @@ body {
 .main_content {
   margin-left: 200px;
   padding: 8px;
+  height: 100%;
+  width: 80%;
 }
 
 .LootDisplayer {
   position: absolute;
-  bottom: 50%;
+  bottom: 25%;
   right: 25%;
   display: none;
+  height: 668px;
+  width: 440px;
+}
+
+.divination_card_frame {
+  background: url("images/Divination_card_frame.png");
+  height: 668px;
+  width: 440px;
+  display: block;
+  position: absolute;
+}
+
+.divination_card_art {
+  top: 56px;
+  left: 26px;
+  background: url("images/House\ of\ Mirrors\ card_art.png");
+  height: 280px;
+  width: 390px;
+  display: block;
+  position: absolute;
+}
+
+.divination_card_name {
+  position: absolute;
+  width: 440px;
+  height: 44px;
+  font-family: PoEFont;
+  left: 0px;
+  top: 14px;
+  text-align: center;
+  font-size: 28px;
+  display: block;
+  line-height: 44px;
+  font-weight: 500;
 }
