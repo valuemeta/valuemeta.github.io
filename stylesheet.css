@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: darkgray;
 }
 
 @font-face {
@@ -197,20 +197,23 @@ body {
   height: 100%;
   width: 200px;
   position: fixed;
+  background-color: grey;
+
+  overflow-x: hidden;
 }
 
-.ShowLoot {
+.NavigationButton {
   display: block;
   white-space: nowrap;
-  width: auto;
+  width: 100%;
   padding: 12px;
+  color: white;
+  text-align: left;
+  cursor: pointer;
 }
 
-.ShowDivinationCards {
-  display: block;
-  white-space: nowrap;
-  width: auto;
-  padding: 12px;
+.NavigationButton:hover {
+  color: black;
 }
 
 .divination_card_icon {
