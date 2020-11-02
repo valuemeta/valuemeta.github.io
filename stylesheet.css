@@ -242,3 +242,14 @@ body {
   margin-left: 200px;
   padding: 8px;
 }
+
+.LootDisplayer {
+  position: absolute;
+  bottom: 50%;
+  right: 25%;
+  display: none;
+}
+
+.item_outer_container:hover, .LootDisplayer {
+  display: block;
+}
