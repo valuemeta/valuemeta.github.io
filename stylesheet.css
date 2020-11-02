@@ -248,7 +248,7 @@ body {
 .LootDisplayer {
   position: absolute;
   bottom: 25%;
-  right: 25%;
+  right: 10%;
   display: none;
   height: 668px;
   width: 440px;

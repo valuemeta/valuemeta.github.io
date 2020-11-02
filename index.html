@@ -259,16 +259,22 @@
 
     // Show the actual divination card when hovered over in loot tab
     // TODO: Fix Text Size
+    // TODO: Test All the divination card images
     function lootHoverOver(element) {
 
       // Get and clean the card name
       var item_name = element.childNodes[1].textContent.trim();
 
+      // Set the card elements
       document.getElementById("LootDisplayer").innerHTML = `
-      <div class="divination_card_art"></div>
+      <div class="divination_card_art" id="divination_card_art"></div>
       <div class="divination_card_frame"></div>
       <div class="divination_card_name noselect">` + item_name + `</div>
-      `
+      `;
+
+      // Set the card art
+      document.getElementById("divination_card_art").style.background = "url('images/" + item_name.replace(/ /g, "\\ ").replace(/'/g, "\\'") + "\ card_art.png')";
+
       document.getElementById("LootDisplayer").style.display = "block";
     }
 
