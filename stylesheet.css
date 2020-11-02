@@ -210,10 +210,12 @@ body {
   color: white;
   text-align: left;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .NavigationButton:hover {
   color: black;
+  background-color: white;
 }
 
 .divination_card_icon {
