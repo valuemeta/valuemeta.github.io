@@ -249,7 +249,3 @@ body {
   right: 25%;
   display: none;
 }
-
-.item_outer_container:hover, .LootDisplayer {
-  display: block;
-}
