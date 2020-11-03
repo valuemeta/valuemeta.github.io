@@ -165,6 +165,9 @@
         case "divination_cards":
           break;
 
+        case "character_creation":
+          break;
+
         case "start":
           console.log("Application started!")
           break;
@@ -178,6 +181,7 @@
       <nav class="NavigationBar">
         <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
         <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('character_creation');">Create a new character</a>
       </nav>
       <div id="main_content" class="main_content">
       </div>
@@ -217,6 +221,9 @@
             document.getElementById(divination_cards[i] + " Count").innerHTML = divination_card_counts[i] + " " + `<div class="divination_card_icon"></div>` + " " + divination_cards[i];
           }
 
+          break;
+
+        case "character_creation":
           break;
 
         default:
@@ -260,7 +267,7 @@
     // Show the actual divination card when hovered over in loot tab
     // TODO: Fix Text Size
     // TODO: Test All the divination card images
-    // TODO: Check that all divination cards are there 
+    // TODO: Check that all divination cards are displayed as intended
     function lootHoverOver(element) {
 
       // Get and clean the card name
