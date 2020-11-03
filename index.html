@@ -224,6 +224,31 @@
           break;
 
         case "character_creation":
+
+          // Add a selection drop down menu to select character class
+          document.getElementById("main_content").innerHTML = `
+          <label>
+          Character class: 
+          </label>
+          <select>
+          <option>Marauder</option>
+          <option>Ranger</option>
+          <option>Witch</option>
+          <option>Duelist</option>
+          <option>Templar</option>
+          <option>Shadow</option>
+          <option>Scion</option>
+          </select>
+          <br>
+          `;
+
+          // Add a button to create a character using the selected character class
+          document.getElementById("main_content").innerHTML += `
+          <button>
+          Create
+          </button>
+          `;
+
           break;
 
         default:
