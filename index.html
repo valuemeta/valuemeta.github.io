@@ -506,10 +506,10 @@
         navigation_bar += `
         <a class="NavigationButton" onclick="toggleDropdown(this)">` + characters[i].name + "▼" + `</a>
         <div class="DropdownContainer">
-        <a class="NavigationButton noselect" href="javascript:void(0) onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)">Skill Tree</a>
         <a class="NavigationButton noselect" href="javascript:void(0)">Map Queue</a>
         <a class="NavigationButton noselect" href="javascript:void(0)">Mapping</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)">Skill Tree</a>
         </div>
         `;
       }
@@ -526,7 +526,6 @@
       document.body.innerHTML = navigation_bar;
 
       // Transition to the character page
-      // CHANGE TO INVENTORY
       transition("equipment", characters.length - 1);
     }
 
