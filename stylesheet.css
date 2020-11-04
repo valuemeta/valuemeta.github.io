@@ -306,3 +306,7 @@ body {
   overflow: auto;
   flex: 1 1 0;
 }
+
+.DropdownContainer {
+  display: block;
+}

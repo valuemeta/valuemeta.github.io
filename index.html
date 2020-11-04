@@ -28,6 +28,8 @@
 
     // Initializes the start page type
     var current_page = "start";
+    // Character index for pages
+    var current_character_index = -1;
 
     // Divination card data
     var divination_cards = [];
@@ -147,11 +149,13 @@
     }
 
     // Transitions between tabs
-    function transition(future_page) {
+    function transition(future_page, future_character_index = -1) {
 
       // Check if its redundant to switch tabs
       if (current_page == future_page) {
-        return;
+        if (current_character_index == future_character_index) {
+          return;
+        }
       }
 
       // Cleans up currently loaded page and saves any necessary data
@@ -181,6 +185,9 @@
           break;
 
         case "character_creation":
+          break;
+
+        case "equipment":
           break;
 
         case "start":
@@ -267,8 +274,7 @@
 
           break;
 
-        default:
-          // TODO: Error checking for non valid integer indices and bad strings
+        case "equipment":
 
           document.getElementById("main_content").style.display = "flex";
 
@@ -283,10 +289,19 @@
           </div>
           `;
 
+          break;
+
+        default:
+        // TODO: Error checking for non valid integer indices and bad strings
+
+
+
       }
 
       // Set the current page to the future page as we are done modifying the page
       current_page = future_page;
+
+      current_character_index = future_character_index;
 
     }
 
@@ -315,7 +330,7 @@
 
       // Load the loot page
       // TODO: BEWARE OF LETTING PLAYERS PLAY BEFORE THE GAME IS DONE LOADING
-      transition('loot');
+      transition("loot");
 
     }
 
@@ -489,7 +504,14 @@
       // Add additional elements according to the characters
       for (i = 0; i < characters.length; i++) {
         navigation_bar += `
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition(` + i.toString() + `);">` + characters[i].name + `</a>`;
+        <a class="NavigationButton" onclick="toggleDropdown(this)">` + characters[i].name + "▼" + `</a>
+        <div class="DropdownContainer">
+        <a class="NavigationButton noselect" href="javascript:void(0) onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)">Map Queue</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)">Mapping</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)">Skill Tree</a>
+        </div>
+        `;
       }
 
       // Complete the navigation bar
@@ -504,7 +526,20 @@
       document.body.innerHTML = navigation_bar;
 
       // Transition to the character page
-      transition(characters.length - 1);
+      // CHANGE TO INVENTORY
+      transition("equipment", characters.length - 1);
+    }
+
+    // Toggles the dropdown menu of an element
+    function toggleDropdown(element) {
+
+      var container = element.nextElementSibling;
+
+      if (container.style.display == "none") {
+        container.style.display = "block";
+      } else {
+        container.style.display = "none";
+      }
     }
 
   </script>
