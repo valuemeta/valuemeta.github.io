@@ -285,3 +285,23 @@ body {
   line-height: 44px;
   font-weight: 500;
 }
+
+.tool_tip {
+  display: inline-block;
+  overflow: auto;
+  flex: 1 1 0;
+}
+
+.character_equipment {
+  background: url("images/character_equipment.png");
+  height: 520px;
+  width: 620px;
+  background-repeat: no-repeat;
+  flex: 0 0 620px;
+}
+
+.equipment_selection {
+  display: inline-block;
+  overflow: auto;
+  flex: 1 1 0;
+}

@@ -40,6 +40,17 @@
     // Character Array
     var characters = [];
 
+    // Navigation Bar
+    var navigation_bar = `
+    <nav class="NavigationBar">
+    <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
+    <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
+    <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('character_creation');">Create a new character</a>
+    </nav>
+    <div id="main_content" class="main_content">
+    </div>
+    `;
+
     // Places a divination card down while the loot tab is open according to its name
     function placeDivinationCard(name) {
 
@@ -128,6 +139,7 @@
 
       // Update the visual element if the current page is divination cards
       // NEVER HAPPENS DUMMY
+      // TODO: FIX this
       if (current_page == "divination_cards") {
         document.getElementById(item_name + " Count").innerHTML = divination_card_counts[divination_cards.indexOf(item_name)];
       }
@@ -173,35 +185,21 @@
 
         case "start":
           console.log("Application started!")
+          // At the start set the navigation bar once
+          document.body.innerHTML = navigation_bar;
           break;
 
         default:
-          // TODO: Error checking for non valid integer indices and bad strings
+        // TODO: Error checking for non valid integer indices and bad strings
 
       }
-
-      // Start with the navigation bar
-      var navigation_bar = `
-      <nav class="NavigationBar">
-      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
-      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
-      `;
-      // Add additional elements according to the characters
-      for (i = 0; i < characters.length; i++) {
-        navigation_bar += `
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition(` + i.toString() + `);">` + characters[i].name + `</a>`;
-      }
-      navigation_bar += `
-      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('character_creation');">Create a new character</a>
-      </nav>
-      <div id="main_content" class="main_content">
-      </div>`;
-      document.body.innerHTML = navigation_bar;
 
       // Loads in the wanted page
       switch (future_page) {
 
         case "loot":
+
+          document.getElementById("main_content").style.display = "block";
 
           // Add stacked deck button and the loot simulator
           document.getElementById("main_content").innerHTML = `
@@ -219,6 +217,8 @@
 
         case "divination_cards":
 
+          document.getElementById("main_content").style.display = "block";
+
           // Add the divination card count elements to the page
           var html = "";
           for (i = 0; i < divination_cards.length; i++) {
@@ -234,6 +234,8 @@
           break;
 
         case "character_creation":
+
+          document.getElementById("main_content").style.display = "block";
 
           // Add a selection drop down menu to select character class
           document.getElementById("main_content").innerHTML = `
@@ -267,7 +269,19 @@
 
         default:
           // TODO: Error checking for non valid integer indices and bad strings
-          document.getElementById("main_content").innerHTML = `Character!!!` + future_page.toString();
+
+          document.getElementById("main_content").style.display = "flex";
+
+          document.getElementById("main_content").innerHTML = `
+          <div class="tool_tip">
+          ToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTip
+          </div>
+          <div class="character_equipment">
+          </div>
+          <div class="equipment_selection">
+          PlaceholderforequipmentselectionPlaceholderforequipmentselection
+          </div>
+          `;
 
       }
 
@@ -352,43 +366,43 @@
           character.base_intelligence = 14;
           character.base_dexterity = 14;
           character.base_strength = 32;
-          character.unarmed_damage = {physical: [2,8]};
+          character.unarmed_damage = { physical: [2, 8] };
           break;
         case "Ranger":
           character.base_intelligence = 14;
           character.base_dexterity = 32;
           character.base_strength = 14;
-          character.unarmed_damage = {physical: [2,5]};
+          character.unarmed_damage = { physical: [2, 5] };
           break;
         case "Witch":
           character.base_intelligence = 32;
           character.base_dexterity = 14;
           character.base_strength = 14;
-          character.unarmed_damagee = {physical: [2,5]};
+          character.unarmed_damagee = { physical: [2, 5] };
           break;
         case "Duelist":
           character.base_intelligence = 14;
           character.base_dexterity = 23;
           character.base_strength = 23;
-          character.unarmed_damage = {physical: [2,6]};
+          character.unarmed_damage = { physical: [2, 6] };
           break;
         case "Templar":
           character.base_intelligence = 23;
           character.base_dexterity = 14;
           character.base_strength = 23;
-          character.unarmed_damage = {physical: [2,6]};
+          character.unarmed_damage = { physical: [2, 6] };
           break;
         case "Shadow":
           character.base_intelligence = 23;
           character.base_dexterity = 23;
           character.base_strength = 14;
-          character.unarmed_damage = {physical: [2,5]};
+          character.unarmed_damage = { physical: [2, 5] };
           break;
         case "Scion":
           character.base_intelligence = 20;
           character.base_dexterity = 20;
           character.base_strength = 20;
-          character.unarmed_damage = {physical: [2,6]};
+          character.unarmed_damage = { physical: [2, 6] };
           break;
         default:
           console.log("Invalid Character Class (Can't set base attributes)");
@@ -410,60 +424,84 @@
 
       // TODO: difficulty (minus res) or just depend on level
       // Set some basic methods that we need
-      character.current_strength = function() {
+      character.current_strength = function () {
         return this.base_strength;
       }
 
-      character.current_dexterity = function() {
+      character.current_dexterity = function () {
         return this.base_dexterity;
       }
 
-      character.current_intelligence = function() {
+      character.current_intelligence = function () {
         return this.base_intelligence;
       }
 
-      character.current_life = function() {
+      character.current_life = function () {
         return this.base_life + (this.level - 1) * 12 + Math.round(this.current_strength() / 2);
       }
 
-      character.current_life_regen = function() {
+      character.current_life_regen = function () {
         return 0;
       }
 
-      character.current_mana = function() {
+      character.current_mana = function () {
         return this.base_mana + (this.level - 1) * 6 + Math.round(this.current_intelligence() / 2);
       }
 
-      character.current_mana_regen = function() {
+      character.current_mana_regen = function () {
         return 0.018 * this.current_mana();
       }
 
-      character.current_accuracy = function() {
+      character.current_accuracy = function () {
         return this.base_accuracy + (this.level - 1) * 2 + this.current_dexterity() * 2;
       }
 
-      character.current_evasion = function() {
-        return Math.round( (this.base_evasion + (this.level - 1) * 3) * (1 + this.current_dexterity() / 500) );
+      character.current_evasion = function () {
+        return Math.round((this.base_evasion + (this.level - 1) * 3) * (1 + this.current_dexterity() / 500));
       }
-    
-      character.current_fire_resistance = function() {
+
+      character.current_fire_resistance = function () {
         return 0;
       }
 
-      character.current_cold_resistance = function() {
+      character.current_cold_resistance = function () {
         return 0;
       }
 
-      character.current_lightning_resistance = function() {
+      character.current_lightning_resistance = function () {
         return 0;
       }
 
-      character.current_chaos_resistance = function() {
+      character.current_chaos_resistance = function () {
         return 0;
       }
 
       // Finally, add the character to the character list
       characters.push(character);
+
+      // Update the navigation bar's elements
+      navigation_bar = `
+      <nav class="NavigationBar">
+      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
+      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
+      `
+
+      // Add additional elements according to the characters
+      for (i = 0; i < characters.length; i++) {
+        navigation_bar += `
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition(` + i.toString() + `);">` + characters[i].name + `</a>`;
+      }
+
+      // Complete the navigation bar
+      navigation_bar += `
+      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('character_creation');">Create a new character</a>
+      </nav>
+      <div id="main_content" class="main_content">
+      </div>
+      `;
+
+      // Apply changes to nav bar
+      document.body.innerHTML = navigation_bar;
 
       // Transition to the character page
       transition(characters.length - 1);
