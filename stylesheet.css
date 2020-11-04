@@ -294,10 +294,11 @@ body {
 
 .character_equipment {
   background: url("images/character_equipment.png");
-  height: 520px;
-  width: 620px;
   background-repeat: no-repeat;
-  flex: 0 0 620px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 520px;
+  width: 600px;
 }
 
 .equipment_selection {
