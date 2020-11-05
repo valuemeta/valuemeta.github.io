@@ -247,7 +247,8 @@
           // Set the card counts to the variables and add formatting
           for (i = 0; i < general_currency.length; i++) {
             document.getElementById(general_currency[i] + " Count").innerHTML = general_currency_counts[i] + " " + `<div class="generic_icon"
-            style="background:url('images/` + general_currency[i].replace(/ /g, "\\ ").replace(/'/g, "\\'") + `"\ inventory_icon.png');"></div>` + " " + general_currency[i];
+            style="background:url('images/` + general_currency[i].replace(/ /g, "\\ ").replace(/'/g, "\\'") + `\ inventory_icon.png');
+            background-size:cover;"></div>` + " " + general_currency[i];
           }
 
           break;
