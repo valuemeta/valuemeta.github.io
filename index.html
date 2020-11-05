@@ -190,6 +190,9 @@
         case "equipment":
           break;
 
+        case "map_queue":
+          break;
+
         case "start":
           console.log("Application started!")
           // At the start set the navigation bar once
@@ -289,6 +292,41 @@
           </div>
           `;
 
+          break;
+
+        case "map_queue":
+
+          document.getElementById("main_content").style.display = "flex";
+
+          document.getElementById("main_content").innerHTML = `
+          <div class="generic_flex">
+            Currency Placeholder
+          </div>
+          <div class="generic_flex">
+            Map placeholder
+          </div>
+          <div class="generic_flex">
+            Scarabs and fragments and divine vessel, key, placeholder
+          </div>
+          <div class="generic_flex">
+            <div>
+            Map Queue
+            </div>
+            <div>
+            Below Map queue
+              <div>
+              Container 1
+              </div>
+              <div>
+              Container 2
+              </div>
+              <div>
+              Container 3
+              </div>
+            </div>
+          </div>
+          `;
+          
           break;
 
         default:
@@ -504,12 +542,12 @@
       // Add additional elements according to the characters
       for (i = 0; i < characters.length; i++) {
         navigation_bar += `
-        <a class="NavigationButton" onclick="toggleDropdown(this)">` + characters[i].name + "▼" + `</a>
+        <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + characters[i].name + "▼" + `</a>
         <div class="DropdownContainer">
         <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)">Skill Tree</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)">Map Queue</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)">Mapping</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + `);">Skill Tree</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
         </div>
         `;
       }

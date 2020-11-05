@@ -310,3 +310,13 @@ body {
 .DropdownContainer {
   display: block;
 }
+
+.generic_flex {
+  display: inline-block;
+  overflow: auto;
+  flex: 1 1 0;
+}
+
+.map_queue {
+  
+}
