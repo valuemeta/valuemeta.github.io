@@ -1,5 +1,11 @@
+html {
+  min-height: 100%;
+  display: flex;
+}
+
 body {
   background-color: darkgray;
+  flex: 1;
 }
 
 @font-face {
@@ -242,7 +248,7 @@ body {
   margin-left: 200px;
   padding: 8px;
   height: 100%;
-  width: 80%;
+  width: calc(100% - 200px - 8px);
 }
 
 .LootDisplayer {
@@ -318,5 +324,43 @@ body {
 }
 
 .map_queue {
-  
+  height: 0%;
+}
+
+.generic_horizontal_flex {
+  display: block;
+  overflow: auto;
+  flex: 1 1 0;
+}
+
+.map_queue_last_column {
+  display: flex;
+  overflow: auto;
+  flex: 1 1 0;
+  flex-direction: column;
+}
+
+.map_queue_bottom {
+  display: flex;
+  overflow: auto;
+  flex: 1 1 0;
+}
+
+.map_device_1 {
+  display: flex;
+  overflow: auto;
+  flex: 1 1 0;
+  flex-direction: column;
+}
+
+.map_device_2 {
+  overflow: auto;
+  flex: 1 1 0;
+}
+
+.map_device_3 {
+  display: flex;
+  overflow: auto;
+  flex: 1 1 0;
+  flex-direction: column;
 }
