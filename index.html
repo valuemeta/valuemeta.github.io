@@ -31,9 +31,13 @@
     // Character index for pages
     var current_character_index = -1;
 
+    // General Currency Data
+    var general_currency = ["Orb of Transmutation", "Orb of Augmentation"];
+    var general_currency_counts = [0, 0];
+
     // Divination card data
     var divination_cards = [];
-    var divination_card_probabilities = [];
+    var stacked_deck_probabilities = [];
     var divination_card_tiers = [];
 
     // Div Card Counts
@@ -46,6 +50,7 @@
     var navigation_bar = `
     <nav class="NavigationBar">
     <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
+    <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('general_currency');">General Currency</a>
     <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
     <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('character_creation');">Create a new character</a>
     </nav>
@@ -100,7 +105,7 @@
     function open_stacked_deck() {
 
       // Select the result of the stacked deck
-      var selected_card = chance.weighted(divination_cards, divination_card_probabilities);
+      var selected_card = chance.weighted(divination_cards, stacked_deck_probabilities);
 
       // Places the card down as a UI element
       placeDivinationCard(selected_card)
@@ -229,6 +234,22 @@
           break;
 
         case "general_currency":
+
+          document.getElementById("main_content").style.display = "block";
+
+          // Add the currency count elements to the page
+          var html = "";
+          for (i = 0; i < general_currency.length; i++) {
+            html = html + `<a class="T5_divination_card_text" id="` + general_currency[i] + ` Count"></a><br>`
+          }
+          document.getElementById("main_content").innerHTML = html;
+
+          // Set the card counts to the variables and add formatting
+          for (i = 0; i < general_currency.length; i++) {
+            document.getElementById(general_currency[i] + " Count").innerHTML = general_currency_counts[i] + " " + `<div class="generic_icon"
+            style="background:url('images/` + general_currency[i].replace(/ /g, "\\ ").replace(/'/g, "\\'") + `"\ inventory_icon.png');"></div>` + " " + general_currency[i];
+          }
+
           break;
 
         case "divination_cards":
@@ -379,7 +400,7 @@
           // Convert the things that should be numbers into numbers
           for (i = 1; i < divination_card_data.length; i++) {
             divination_cards[i - 1] = divination_card_data[i][0];
-            divination_card_probabilities[i - 1] = Number.parseFloat(divination_card_data[i][1]);
+            stacked_deck_probabilities[i - 1] = Number.parseFloat(divination_card_data[i][1]);
             divination_card_tiers[i - 1] = Number.parseFloat(divination_card_data[i][2]);
           }
 
@@ -559,6 +580,7 @@
       navigation_bar = `
       <nav class="NavigationBar">
       <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('loot');">Loot</div>
+      <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('general_currency');">General Currency</a>
       <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('divination_cards');">Divination Cards</a>
       `
 

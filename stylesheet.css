@@ -364,3 +364,12 @@ body {
   flex: 1 1 0;
   flex-direction: column;
 }
+
+.generic_icon {
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+  display: inline-block;
+  vertical-align: middle;
+}
