@@ -104,7 +104,11 @@
           </div>`;
           break;
 
-          
+        case "map":
+
+
+
+          break;
 
         default:
           console.log("Item Place Error: Invalid Item Type");
@@ -204,13 +208,7 @@
 
           // Put all the saved loot onto the screen
           for (j = 0; j < loot.length; j++) {
-            switch (loot[j].type) {
-              case "divination_card":
-                placeItem(loot[j]);
-                break;
-              default:
-                console.log("Loot array error: Item type invalid");
-            }
+            placeItem(loot[j]);
           }
 
           break;
@@ -636,8 +634,12 @@
               audio.play();
               break;
             default:
-              console.log("Item name error: Cannot play sound");
+              // Other tiers result in no sound played
           }
+
+          break;
+
+        case "map":
 
           break;
 
