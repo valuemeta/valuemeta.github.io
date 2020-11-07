@@ -89,6 +89,7 @@
             case 4:
               var selected_card_icon = " white_triangle";
               break;
+              
             default:
               // Represents the prefix for no icon
               var selected_card_icon = "";
@@ -102,6 +103,8 @@
             `</label>
           </div>`;
           break;
+
+          
 
         default:
           console.log("Item Place Error: Invalid Item Type");
@@ -609,8 +612,10 @@
       // Add the item to the loot array
       loot.push(item);
 
+      // Visually draw the item
       placeItem(item);
 
+      // Play sound depending on the item type (and later the loot filter)
       switch (item.type) {
 
         case "divination_card":
