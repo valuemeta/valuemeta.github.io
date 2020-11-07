@@ -181,6 +181,9 @@
           selected_map_element = "";
           break;
 
+        case "mapping":
+          break;
+
         case "start":
           console.log("Application started!")
           // At the start set the navigation bar once
@@ -248,40 +251,6 @@
           for (i = 0; i < divination_cards.length; i++) {
             document.getElementById(divination_cards[i] + " Count").innerHTML = divination_card_counts[i] + " " + `<div class="divination_card_icon"></div>` + " " + divination_cards[i];
           }
-
-          break;
-
-        case "character_creation":
-
-          document.getElementById("main_content").style.display = "block";
-
-          // Add a selection drop down menu to select character class
-          document.getElementById("main_content").innerHTML = `
-          <label>
-          Character Name: 
-          </label>
-          <input type="text" id="CharacterName">
-          <label>
-          Character Class: 
-          </label>
-          <select id="CharacterClass">
-          <option>Marauder</option>
-          <option>Ranger</option>
-          <option>Witch</option>
-          <option>Duelist</option>
-          <option>Templar</option>
-          <option>Shadow</option>
-          <option>Scion</option>
-          </select>
-          <br>
-          `;
-
-          // Add a button to create a character using the selected character class
-          document.getElementById("main_content").innerHTML += `
-          <button onclick="CreateCharacter();">
-          Create Character
-          </button>
-          `;
 
           break;
 
@@ -356,6 +325,44 @@
               </div>
             </div>
           </div>
+          `;
+
+          break;
+
+        case "mapping":
+        
+          break;
+
+        case "character_creation":
+
+          document.getElementById("main_content").style.display = "block";
+
+          // Add a selection drop down menu to select character class
+          document.getElementById("main_content").innerHTML = `
+          <label>
+          Character Name: 
+          </label>
+          <input type="text" id="CharacterName">
+          <label>
+          Character Class: 
+          </label>
+          <select id="CharacterClass">
+          <option>Marauder</option>
+          <option>Ranger</option>
+          <option>Witch</option>
+          <option>Duelist</option>
+          <option>Templar</option>
+          <option>Shadow</option>
+          <option>Scion</option>
+          </select>
+          <br>
+          `;
+
+          // Add a button to create a character using the selected character class
+          document.getElementById("main_content").innerHTML += `
+          <button onclick="CreateCharacter();">
+          Create Character
+          </button>
           `;
 
           break;
@@ -712,7 +719,7 @@
       map_queue.push(map_inventory[selected_map_index]);
 
       // Remove the selected map from inventory
-      map_inventory.splice(selected_map_index,1)
+      map_inventory.splice(selected_map_index, 1)
 
       // Redraw UI elements to remove the selected map from inventory
       selected_map_element.remove();
