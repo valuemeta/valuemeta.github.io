@@ -59,8 +59,8 @@
     </div>
     `;
 
-    // Places a divination card down while the loot tab is open according to its name
-    function placeDivinationCard(name) {
+    // Places an item down while the loot tab is open according to its name
+    function placeItem(item) {
 
       // Initialize the outer UI element
       var card = document.createElement("div");
@@ -69,33 +69,44 @@
       card.setAttribute("onmouseover", "lootHoverOver(this);")
       card.setAttribute("onmouseout", "lootHoverOut();")
 
-      var selected_card_tier = divination_card_tiers[divination_cards.indexOf(name)];
+      switch (item.type) {
 
-      // Find the selected card's icon in the loot filter
-      switch (selected_card_tier) {
-        case 1:
-          var selected_card_icon = " red_star";
+        case "divination_card":
+
+          var selected_card_tier = divination_card_tiers[divination_cards.indexOf(item.name)];
+
+          // Find the selected card's icon in the loot filter
+          switch (selected_card_tier) {
+            case 1:
+              var selected_card_icon = " red_star";
+              break;
+            case 2:
+              var selected_card_icon = " red_triangle";
+              break;
+            case 3:
+              var selected_card_icon = " yellow_triangle";
+              break;
+            case 4:
+              var selected_card_icon = " white_triangle";
+              break;
+            default:
+              var selected_card_icon = "";
+          }
+
+          // Make the UI elements look like a drop
+          card.innerHTML = `
+          <div class="T` + selected_card_tier + `_divination_card_inner_container ` + "bright " + "noselect" + `">
+          <label class="T` + selected_card_tier + `_divination_card_text">
+          <div class="` + selected_card_icon + `_image"></div> ` + item.name +
+            `</label>
+          </div>`;
           break;
-        case 2:
-          var selected_card_icon = " red_triangle";
-          break;
-        case 3:
-          var selected_card_icon = " yellow_triangle";
-          break;
-        case 4:
-          var selected_card_icon = " white_triangle";
-          break;
+
         default:
-          var selected_card_icon = "";
-      }
 
-      // Make the UI elements look like a drop
-      card.innerHTML = `
-      <div class="T` + selected_card_tier + `_divination_card_inner_container ` + "bright " + "noselect" + `">
-      <label class="T` + selected_card_tier + `_divination_card_text">
-      <div class="` + selected_card_icon + `_image"></div> ` + name +
-        `</label>
-      </div>`;
+
+
+      }
 
       // Drop the card
       document.getElementById("LootContainer").appendChild(card);
@@ -109,7 +120,7 @@
       var selected_card = chance.weighted(divination_cards, stacked_deck_probabilities);
 
       // Places the card down as a UI element
-      dropItem(selected_card);
+      dropItem({ name: selected_card, type: "divination_card" });
 
     }
 
@@ -191,7 +202,13 @@
 
           // Put all the saved loot onto the screen
           for (j = 0; j < loot.length; j++) {
-            placeDivinationCard(loot[j]);
+            switch (loot[j].type) {
+              case "divination_card":
+                placeItem(loot[j]);
+                break;
+              default:
+                console.log("Item type invalid")
+            }
           }
 
           break;
@@ -587,32 +604,42 @@
       }
     }
 
-    // Drops an item
+    // Drops an item, only call if the loot tab is open
     function dropItem(item) {
 
       // Add the item to the loot array
       loot.push(item);
 
       if (current_page == "loot") {
-        placeDivinationCard(item);
+        placeItem(item);
       }
 
-      // Play the sound if applicable
-      switch (divination_card_tiers[divination_cards.indexOf(item)]) {
-        case 1:
-          var audio = new Audio("sounds/AlertSound6.mp3");
-          audio.play();
+      switch (item.type) {
+
+        case "divination_card":
+
+          // Play the sound if applicable
+          switch (divination_card_tiers[divination_cards.indexOf(item.name)]) {
+            case 1:
+              var audio = new Audio("sounds/AlertSound6.mp3");
+              audio.play();
+              break;
+            case 2:
+              var audio = new Audio("sounds/AlertSound1.mp3");
+              audio.play();
+              break;
+            case 3: // Fallthrough
+            case 4:
+              var audio = new Audio("sounds/AlertSound2.mp3");
+              audio.play();
+              break;
+            default:
+          }
+
           break;
-        case 2:
-          var audio = new Audio("sounds/AlertSound1.mp3");
-          audio.play();
-          break;
-        case 3: // Fallthrough
-        case 4:
-          var audio = new Audio("sounds/AlertSound2.mp3");
-          audio.play();
-          break;
+
         default:
+
       }
 
     }
