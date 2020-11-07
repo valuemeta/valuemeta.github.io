@@ -90,6 +90,7 @@
               var selected_card_icon = " white_triangle";
               break;
             default:
+              // Represents the prefix for no icon
               var selected_card_icon = "";
           }
 
@@ -103,9 +104,7 @@
           break;
 
         default:
-
-
-
+          console.log("Item Place Error: Invalid Item Type");
       }
 
       // Drop the card
@@ -207,7 +206,7 @@
                 placeItem(loot[j]);
                 break;
               default:
-                console.log("Item type invalid")
+                console.log("Loot array error: Item type invalid");
             }
           }
 
@@ -634,11 +633,14 @@
               audio.play();
               break;
             default:
+              console.log("Item name error: Cannot play sound");
           }
 
           break;
 
         default:
+
+          console.log("Item type error: Cannot play sound");
 
       }
 
