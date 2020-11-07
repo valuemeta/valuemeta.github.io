@@ -24,7 +24,8 @@
 
     // Array for saving the loot since loot is converted between visual
     // and array based formats depending on tab
-    var saved_loot = [];
+    var loot = [];
+    var loot_queue = [];
 
     // Initializes the start page type
     var current_page = "start";
@@ -108,7 +109,7 @@
       var selected_card = chance.weighted(divination_cards, stacked_deck_probabilities);
 
       // Places the card down as a UI element
-      placeDivinationCard(selected_card)
+      dropItem(selected_card);
 
       // Play the sound if applicable
       switch (divination_card_tiers[divination_cards.indexOf(selected_card)]) {
@@ -133,6 +134,7 @@
     function pickUpItem(item) {
 
       // Remove the item
+      loot.splice(Array.prototype.indexOf.call(item.parentNode.children, item), 1);
       item.remove();
 
       // Remove the displayer
@@ -143,13 +145,6 @@
 
       // Increment the count
       divination_card_counts[divination_cards.indexOf(item_name)]++;
-
-      // Update the visual element if the current page is divination cards
-      // NEVER HAPPENS DUMMY
-      // TODO: FIX this
-      if (current_page == "divination_cards") {
-        document.getElementById(item_name + " Count").innerHTML = divination_card_counts[divination_cards.indexOf(item_name)];
-      }
 
     }
 
@@ -167,22 +162,6 @@
       switch (current_page) {
 
         case "loot":
-
-          // Save all the loot in the loot tab into an array of names
-          var nodes = document.getElementById("LootContainer").childNodes;
-
-          // Clear the previous saved loot to make sure there's a clean variable to store the new loot
-          saved_loot = [];
-
-          // Set the saved loot to the items currently dropped on the page
-          for (i = 0; i < nodes.length; i++) {
-            saved_loot[i] = nodes[i].childNodes[1].childNodes[1].childNodes[2].textContent;
-          }
-
-          // Remove whitespace due to the way aesthetics was achieved with a space in front
-          for (i = 0; i < saved_loot.length; i++) {
-            saved_loot[i] = saved_loot[i].trim();
-          }
 
           break;
 
@@ -227,8 +206,8 @@
           `;
 
           // Put all the saved loot onto the screen
-          for (j = 0; j < saved_loot.length; j++) {
-            placeDivinationCard(saved_loot[j]);
+          for (j = 0; j < loot.length; j++) {
+            placeDivinationCard(loot[j]);
           }
 
           break;
@@ -311,7 +290,7 @@
 
           document.getElementById("main_content").innerHTML = `
           <div class="tool_tip">
-          ToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTipToolTip
+          Tooltip: tooltip
           </div>
           <div class="character_equipment">
           </div>
@@ -371,7 +350,7 @@
             </div>
           </div>
           `;
-          
+
           break;
 
         default:
@@ -623,6 +602,18 @@
       } else {
         container.style.display = "none";
       }
+    }
+
+    // Drops an item
+    function dropItem(item) {
+
+      // Add the item to the loot array
+      loot.push(item);
+
+      if (current_page == "loot") {
+        placeDivinationCard(item);
+      }
+
     }
 
   </script>

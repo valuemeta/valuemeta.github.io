@@ -294,7 +294,7 @@ body {
 
 .tool_tip {
   display: inline-block;
-  overflow: auto;
+  overflow: scroll;
   flex: 1 1 0;
 }
 
