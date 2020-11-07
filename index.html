@@ -50,6 +50,9 @@
     // Maps
     var maps = ["Iceberg", "Glacier"];
     var map_inventory = [];
+    var selected_map_index = -1;
+    var selected_map_element = "";
+    var map_queue = [];
 
     // Navigation Bar
     var navigation_bar = `
@@ -174,6 +177,8 @@
           break;
 
         case "map_queue":
+          selected_map_index = -1;
+          selected_map_element = "";
           break;
 
         case "start":
@@ -303,7 +308,7 @@
 
           var html = "";
           for (i = 0; i < map_inventory.length; i++) {
-            html += `<div>` + map_inventory[i].name + `</div>`
+            html += `<div class="noselect" onclick="selectMap(this);">` + map_inventory[i].name + " " + map_inventory[i].tier + `</div>`
           }
 
 
@@ -334,7 +339,7 @@
                 <div>
                   Image of map device slots
                 </div>
-                <div>
+                <div onclick="queueMap();">
                   Queue Button
                 </div>
                 <div>
@@ -697,6 +702,24 @@
 
     }
 
+    function selectMap(itemElement) {
+      selected_map_element = itemElement;
+      selected_map_index = Array.prototype.indexOf.call(itemElement.parentNode.children, itemElement);
+    }
+
+    function queueMap() {
+      // Add the map to the queue
+      map_queue.push(map_inventory[selected_map_index]);
+
+      // Remove the selected map from inventory
+      map_inventory.splice(selected_map_index,1)
+
+      // Redraw UI elements to remove the selected map from inventory
+      selected_map_element.remove();
+
+      // Reset the selected map choice
+      selected_map_index = -1;
+    }
 
 
   </script>
