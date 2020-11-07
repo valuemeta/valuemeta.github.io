@@ -334,7 +334,7 @@ body {
   vertical-align: middle;
 }
 
-.T1_map_inner_container {
+.T3_map_inner_container {
   background-color:black;
   border: 1px solid rgba(200,200,200,1);
   padding: 5px;
@@ -343,7 +343,7 @@ body {
   display: inline-flex;
 }
 
-.T1_map_text {
+.T3_map_text {
   color: rgba(200,200,200,1);
   font-size: 30px;
   font-family: PoEFont;
@@ -366,7 +366,7 @@ body {
   vertical-align: sub;
 }
 
-.T3_map_inner_container {
+.T1_map_inner_container {
   background-color: rgb(235,235,235);
   border: 1px solid rgb(150,0,0);
   padding: 5px;
@@ -375,7 +375,7 @@ body {
   display: inline-flex;
 }
 
-.T3_map_text {
+.T1_map_text {
   color: black;
   font-size: 30px;
   font-family: PoEFont;
