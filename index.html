@@ -88,7 +88,19 @@
 
         case "map":
 
+          if (1 <= item.tier && item.tier <= 67) {
+            var tier = 1;
+          } else if (68 <= item.tier && item.tier <= 80) {
+            var tier = 2;
+          } else if (81 <= item.tier && item.tier <= 83) {
+            var tier = 3;
+          }
 
+          card.innerHTML = `
+          <div class="T` + tier + `_map_inner_container ` + "bright " + "noselect" + `">
+          <label class="T` + tier + `_map_text">` + item.name +
+          `</label>
+          </div>`;
 
           break;
 
