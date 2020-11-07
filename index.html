@@ -111,39 +111,23 @@
       // Places the card down as a UI element
       dropItem(selected_card);
 
-      // Play the sound if applicable
-      switch (divination_card_tiers[divination_cards.indexOf(selected_card)]) {
-        case 1:
-          var audio = new Audio("sounds/AlertSound6.mp3");
-          audio.play();
-          break;
-        case 2:
-          var audio = new Audio("sounds/AlertSound1.mp3");
-          audio.play();
-          break;
-        case 3: // Fallthrough
-        case 4:
-          var audio = new Audio("sounds/AlertSound2.mp3");
-          audio.play();
-          break;
-        default:
-      }
     }
 
     // Event of picking up an item on the loot page
     function pickUpItem(item) {
 
-      // Remove the item
+      // Remove the item from the loot array
       loot.splice(Array.prototype.indexOf.call(item.parentNode.children, item), 1);
+      // Remove the UI element
       item.remove();
 
-      // Remove the displayer
+      // Remove the displayer as the mouse technically did not hover out upon click
       lootHoverOut(item);
 
       // Get and clean the card name
       var item_name = item.childNodes[1].textContent.trim();
 
-      // Increment the count
+      // Increment the count of the specific item
       divination_card_counts[divination_cards.indexOf(item_name)]++;
 
     }
@@ -360,7 +344,6 @@
 
       }
 
-      // Set the current page to the future page as we are done modifying the page
       current_page = future_page;
 
       current_character_index = future_character_index;
@@ -614,7 +597,34 @@
         placeDivinationCard(item);
       }
 
+      // Play the sound if applicable
+      switch (divination_card_tiers[divination_cards.indexOf(item)]) {
+        case 1:
+          var audio = new Audio("sounds/AlertSound6.mp3");
+          audio.play();
+          break;
+        case 2:
+          var audio = new Audio("sounds/AlertSound1.mp3");
+          audio.play();
+          break;
+        case 3: // Fallthrough
+        case 4:
+          var audio = new Audio("sounds/AlertSound2.mp3");
+          audio.play();
+          break;
+        default:
+      }
+
     }
+
+    // Loot drop timer
+    setInterval(function () {
+      if (current_page == "loot" && loot_queue.length != 0) {
+        dropItem(loot_queue.shift());
+      }
+    }, 150);
+
+
 
   </script>
 
