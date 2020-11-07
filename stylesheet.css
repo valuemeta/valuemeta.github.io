@@ -62,7 +62,7 @@ body {
 .T1_divination_card_inner_container {
   background-color: white;
   border: 1px solid blue;
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;
@@ -92,7 +92,7 @@ body {
 .T2_divination_card_inner_container {
   background-color: blue;
   border: 1px solid white;
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;
@@ -118,7 +118,7 @@ body {
 .T3_divination_card_inner_container {
   background-color: rgb(50, 220, 240);
   border: 1px solid black;
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;
@@ -144,7 +144,7 @@ body {
 .T4_divination_card_inner_container {
   background-color: rgba(145, 215, 230, 0.882);
   border: 1px solid rgb(0, 100, 150);
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;
@@ -170,7 +170,7 @@ body {
 .T5_divination_card_inner_container {
   background-color: rgba(175, 215, 230, 0.706);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;
@@ -186,7 +186,7 @@ body {
 .T6_divination_card_inner_container {
   background-color: rgba(175, 215, 230, 0.706);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 5px;
+  padding: 3px;
   position: relative;
   top: 40%;
   display: inline-flex;

@@ -47,6 +47,9 @@
     // Character Array
     var characters = [];
 
+    // Maps
+    var maps = ["Iceberg", "Glacier"];
+
     // Navigation Bar
     var navigation_bar = `
     <nav class="NavigationBar">
@@ -75,32 +78,11 @@
 
           var selected_card_tier = divination_card_tiers[divination_cards.indexOf(item.name)];
 
-          // Find the selected card's icon in the loot filter
-          switch (selected_card_tier) {
-            case 1:
-              var selected_card_icon = " red_star";
-              break;
-            case 2:
-              var selected_card_icon = " red_triangle";
-              break;
-            case 3:
-              var selected_card_icon = " yellow_triangle";
-              break;
-            case 4:
-              var selected_card_icon = " white_triangle";
-              break;
-              
-            default:
-              // Represents the prefix for no icon
-              var selected_card_icon = "";
-          }
-
           // Make the UI elements look like a drop
           card.innerHTML = `
           <div class="T` + selected_card_tier + `_divination_card_inner_container ` + "bright " + "noselect" + `">
-          <label class="T` + selected_card_tier + `_divination_card_text">
-          <div class="` + selected_card_icon + `_image"></div> ` + item.name +
-            `</label>
+          <label class="T` + selected_card_tier + `_divination_card_text">` + item.name +
+          `</label>
           </div>`;
           break;
 
