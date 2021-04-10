@@ -8,7 +8,7 @@
 
   <link rel="stylesheet" href="stylesheet.css">
 
-  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="shortcut icon" href="images/misc/favicon.ico">
 
   <script src="scripts/chance.js"></script>
   <script src="scripts/papaparse.min.js"></script>
@@ -29,8 +29,8 @@
 
     // Initializes the start page type
     var current_page = "start";
-    // Character index for pages
-    var current_character_index = -1;
+    // Group index for pages
+    var current_group_index = -1;
 
     // General Currency Data
     var general_currency = ["Orb of Transmutation", "Orb of Augmentation"];
@@ -44,15 +44,17 @@
     // Div Card Counts
     var divination_card_counts = [];
 
-    // Character Array
-    var characters = [];
+    // Group Array
+    var groups = [];
 
     // Maps
     var maps = ["Iceberg", "Glacier"];
     var map_inventory = [];
     var selected_map_index = -1;
     var selected_map_element = "";
-    var map_queue = [];
+
+    // Monster stats at level 1 for now
+    var base_monster_stats = { damage: 5, evasion: 53, accuracy: 14, life: 15, experience: 20, armour: 15, attack_time: 2.4 };
 
     // Navigation Bar
     var navigation_bar = `
@@ -66,7 +68,7 @@
     </div>
     `;
 
-    // Places an item down while the loot tab is open according to its name
+    // Visually places an item down while the loot tab is open according to its name
     function placeItem(item) {
 
       // Initialize the outer UI element
@@ -152,7 +154,7 @@
 
       // Check if its redundant to switch tabs
       if (current_page == future_page) {
-        if (current_character_index == future_character_index) {
+        if (current_group_index == future_character_index) {
           return;
         }
       }
@@ -230,7 +232,7 @@
           // Set the card counts to the variables and add formatting
           for (i = 0; i < general_currency.length; i++) {
             document.getElementById(general_currency[i] + " Count").innerHTML = general_currency_counts[i] + " " + `<div class="generic_icon"
-            style="background:url('images/` + general_currency[i].replace(/ /g, "\\ ").replace(/'/g, "\\'") + `\ inventory_icon.png');
+            style="background:url('images/currency/` + general_currency[i].replace(/ /g, "\\ ").replace(/'/g, "\\'") + `\ inventory_icon.png');
             background-size:cover;"></div>` + " " + general_currency[i];
           }
 
@@ -330,7 +332,7 @@
           break;
 
         case "mapping":
-        
+
           break;
 
         case "character_creation":
@@ -376,7 +378,7 @@
 
       current_page = future_page;
 
-      current_character_index = future_character_index;
+      current_group_index = future_character_index;
 
     }
 
@@ -413,6 +415,8 @@
     // TODO: Fix Text Size
     // TODO: Test All the divination card images
     // TODO: Check that all divination cards are displayed as intended once everything is done
+    // TODO: Possibly fix the epilepsy thing when hovering on a item while the hover over display
+    // is where the item is
     function lootHoverOver(element) {
 
       // Get and clean the card name
@@ -450,7 +454,11 @@
       var select = document.getElementById("CharacterClass");
       character.class = select.options[select.selectedIndex].text;
 
+      character.entities = [];
+
+
       // Set some basic attributes that depend on class
+      // TODO: Add starting weapon and skill gem for all classes
       switch (character.class) {
         case "Marauder":
           character.base_intelligence = 14;
@@ -468,7 +476,9 @@
           character.base_intelligence = 32;
           character.base_dexterity = 14;
           character.base_strength = 14;
-          character.unarmed_damagee = { physical: [2, 5] };
+          character.unarmed_damage = { physical: [2, 5] };
+
+          character.weapon1 = { name: "Driftwood Wand", quality: 0, base_type: "wand", level_requirement: 1, intelligence_requirement: 14, damage: { physical: [5, 9] }, attacks_per_second: 1.4, crit_chance: 0.07, sockets: [{ color: "blue", gem: { name: "Fireball", mana_cost: 6, level: 1, intelligence_requirement: 0, cast_time: 0.75, crit_chance: 0.06, added_damage_effectiveness: 2.4, projectile_speed: 1040, damage: { fire: [9, 14] }, ignite_chance: 0.2, more_ignite_damage: 0.5 } }, { color: "green", gem: {} }, { color: "red", gem: {} }] }
           break;
         case "Duelist":
           character.base_intelligence = 14;
@@ -511,6 +521,8 @@
       character.base_cold_resistance = 0;
       character.base_lightning_resistance = 0;
       character.base_chaos_resistance = 0;
+
+      character.base_movement_speed = 38;
 
       // TODO: difficulty (minus res) or just depend on level
       // Set some basic methods that we need
@@ -566,8 +578,12 @@
         return 0;
       }
 
-      // Finally, add the character to the character list
-      characters.push(character);
+      character.current_movement_speed = function () {
+        return this.base_movement_speed;
+      }
+
+      // Finally, add the character to the group list in its own group
+      groups.push({characters: [character], map_queue: [], mapping: {}, isMapping: false});
 
       // Update the navigation bar's elements
       navigation_bar = `
@@ -578,16 +594,24 @@
       `
 
       // Add additional elements according to the characters
-      for (i = 0; i < characters.length; i++) {
-        navigation_bar += `
-        <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + characters[i].name + "▼" + `</a>
-        <div class="DropdownContainer">
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + `);">Skill Tree</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
-        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
-        </div>
-        `;
+      for (i = 0; i < groups.length; i++) {
+
+        for (j = 0; j < groups[i].characters.length; j++) {
+
+          // PROBABLY DOESNT WORK
+          // Probably needs to have a separate container for each group
+          navigation_bar += `
+          <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + "Group " + i + " ▼" + `</a>
+          <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + groups[i].characters[j].name + " ▼" + `</a>
+          <div class="DropdownContainer">
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + `);">Skill Tree</a>
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
+          </div>
+          `;
+
+        }
       }
 
       // Complete the navigation bar
@@ -602,10 +626,10 @@
       document.body.innerHTML = navigation_bar;
 
       // Transition to the character page
-      transition("equipment", characters.length - 1);
+      transition("equipment", groups.length - 1, 0);
     }
 
-    // Toggles the dropdown menu of an element
+    // Toggles the dropdown menu of a character UI element
     function toggleDropdown(element) {
 
       var container = element.nextElementSibling;
@@ -615,9 +639,18 @@
       } else {
         container.style.display = "none";
       }
+
+      // Toggle the arrow from down to right and vice versa
+      if (element.innerHTML.includes("▼")) {
+        element.innerHTML = element.innerHTML.slice(0, -1) + "▶"
+      } else {
+        element.innerHTML = element.innerHTML.slice(0, -1) + "▼"
+      }
+
     }
 
-    // Drops an item, only call if the loot tab is open
+    // Drops an item which adds the item to the loot array and drops it visually
+    // only call if the loot tab is open
     function dropItem(item) {
 
       // Add the item to the loot array
@@ -714,9 +747,10 @@
       selected_map_index = Array.prototype.indexOf.call(itemElement.parentNode.children, itemElement);
     }
 
+    // TODO: Fix this to not break upon no map selection
     function queueMap() {
       // Add the map to the queue
-      map_queue.push(map_inventory[selected_map_index]);
+      groups[current_group_index].map_queue.push(map_inventory[selected_map_index]);
 
       // Remove the selected map from inventory
       map_inventory.splice(selected_map_index, 1)
@@ -727,6 +761,107 @@
       // Reset the selected map choice
       selected_map_index = -1;
     }
+
+    // Helper function to convert an array of objects with deltas into an array of deltas.
+    function find_deltas(array) {
+      var deltas = [];
+      for (i = 0; i < array.length; i++) {
+        deltas.push(array[i].delta)
+      }
+
+      return deltas
+    }
+
+    // All the actual mapping functionality goes here (i.e. inside a map functionality)
+    var start_time = window.performance.now() / 1000;
+    setInterval(mapping_loop, 1000);
+    function mapping_loop() {
+      var delta = window.performance.now() / 1000 - start_time;
+      start_time += delta;
+      //console.log(delta);
+
+      // Mapping loop here
+      // Do the update for each character
+      for (i = 0; i < characters.length; i++) {
+
+        current_delta = delta;
+
+        // Start running maps if the map queue is non-empty and the character is not mapping
+        if (characters[i].map_queue.length > 0 && characters[i].isMapping == false) {
+          // Update the mapping attributes depending on the map
+          // This will setup all the necessary information to complete the map
+          // TODO: change this from constant to random and add more info (packsize etc)
+          characters[i].mapping.packs = [[{ rarity: "normal", level: 1, damage: 5, evasion: 53, accuracy: 14, life: 15, experience: 20, armour: 15, attack_time: 2.4 }], [{ rarity: "normal", level: 1, damage: 5, evasion: 53, accuracy: 14, life: 15, experience: 20, armour: 15, attack_time: 2.4 }], [{ rarity: "normal", level: 1, damage: 5, evasion: 53, accuracy: 14, life: 15, experience: 20, armour: 15, attack_time: 2.4 }]];
+
+          // Movement bar distance
+          characters[i].mapping.distance_left = 1000;
+
+          characters[i].isMapping = true;
+
+          characters[i].mapping.progress = -1
+        }
+
+        // Implement the mapping process (combat, movement)
+        if (characters[i].isMapping == true) {
+
+          // Implement the movement simulation between packs
+          if (characters[i].mapping.distance_left != 0) {
+
+            if (current_delta * characters[i].current_movement_speed() < characters[i].mapping.distance_left) {
+              characters[i].mapping.distance_left -= current_delta * characters[i].current_movement_speed();
+              current_delta = 0;
+            } else {
+              current_delta -= characters[i].mapping.distance_left / characters[i].current_movement_speed();
+              characters[i].mapping.distance_left = 0;
+              characters[i].mapping.progress += 1;
+
+              // Set the current pack to the pack the player just arrived at
+              characters[i].mapping.current_pack = characters[i].mapping.packs[characters[i].mapping.progress];
+
+              // Setup deltas for characters
+              characters[i].mapping.character_delta = characters[i].weapon1.sockets[0].gem.cast_time;
+
+              // Setup deltas for the pack that was newly encountered
+              for (monster_index = 0; monster_index < characters[i].mapping.current_pack; monster_index++) {
+                characters[i].mapping.current_pack[monster_index].delta = characters[i].mapping.current_pack[monster_index].attack_time;
+              }
+
+              // Setup the entities array for temporary entities
+              // These reset every pack essentially
+              characters[i].mapping.entities = [];
+
+            }
+
+          }
+
+          // Implement combat
+
+          // Find the initial minimum delta
+
+
+
+          // Check that the minimum delta is less than or equal to the delta
+
+
+          // If it is less than or equal to the delta then do the action
+
+         
+
+
+
+
+
+
+
+          // If the map has ended, clean up the mapping variable and various deltas
+
+        }
+
+      }
+
+    }
+
+
 
 
   </script>

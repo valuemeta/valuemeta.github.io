@@ -15,7 +15,7 @@ body {
 }
 
 .stacked_deck {
-  background-image: url("images/Stacked_Deck.png");
+  background-image: url("images/currency/Stacked_Deck.png");
   background-repeat: no-repeat;
   background-color: transparent;
   height:78px;
@@ -185,7 +185,7 @@ body {
 }
 
 .divination_card_icon {
-  background-image: url("images/Divination_card_icon.png");
+  background-image: url("images/misc/Divination_card_icon.png");
   background-repeat: no-repeat;
   width: 30px;
   height: 30px;
@@ -221,7 +221,7 @@ body {
 }
 
 .divination_card_frame {
-  background: url("images/Divination_card_frame.png");
+  background: url("images/misc/Divination_card_frame.png");
   height: 668px;
   width: 440px;
   display: block;
@@ -259,7 +259,7 @@ body {
 }
 
 .character_equipment {
-  background: url("images/character_equipment.png");
+  background: url("images/misc/character_equipment.png");
   background-repeat: no-repeat;
   flex-grow: 0;
   flex-shrink: 0;
