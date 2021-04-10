@@ -31,6 +31,8 @@
     var current_page = "start";
     // Group index for pages
     var current_group_index = -1;
+    // Character index for group
+    var current_character_index = -1;
 
     // General Currency Data
     var general_currency = ["Orb of Transmutation", "Orb of Augmentation"];
@@ -150,12 +152,14 @@
     }
 
     // Transitions between tabs
-    function transition(future_page, future_character_index = -1) {
+    function transition(future_page, future_group_index = -1, future_character_index = -1,) {
 
       // Check if its redundant to switch tabs
       if (current_page == future_page) {
-        if (current_group_index == future_character_index) {
-          return;
+        if (current_group_index == future_group_index) {
+          if (current_character_index == future_character_index) {
+            return;
+          }
         }
       }
 
@@ -378,7 +382,9 @@
 
       current_page = future_page;
 
-      current_group_index = future_character_index;
+      current_group_index = future_group_index;
+
+      current_character_index = future_character_index;
 
     }
 
@@ -602,12 +608,14 @@
           // Probably needs to have a separate container for each group
           navigation_bar += `
           <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + "Group " + i + " ▼" + `</a>
+          <div class="DropdownContainer">
           <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + groups[i].characters[j].name + " ▼" + `</a>
           <div class="DropdownContainer">
           <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
           <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + `);">Skill Tree</a>
           <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
           <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
+          </div>
           </div>
           `;
 
