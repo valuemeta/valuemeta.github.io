@@ -602,24 +602,29 @@
       // Add additional elements according to the characters
       for (i = 0; i < groups.length; i++) {
 
+        navigation_bar += `
+        <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + "Group " + i + " ▼" + `</a>
+        <div class="DropdownContainer">
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
+        <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
+        `
+
         for (j = 0; j < groups[i].characters.length; j++) {
 
           // PROBABLY DOESNT WORK
           // Probably needs to have a separate container for each group
           navigation_bar += `
-          <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + "Group " + i + " ▼" + `</a>
-          <div class="DropdownContainer">
           <a class="NavigationButton noselect" onclick="toggleDropdown(this)">` + groups[i].characters[j].name + " ▼" + `</a>
           <div class="DropdownContainer">
-          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + `);">Equipment</a>
-          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + `);">Skill Tree</a>
-          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('map_queue',` + i.toString() + `);">Map Queue</a>
-          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('mapping',` + i.toString() + `);">Mapping</a>
-          </div>
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('equipment',` + i.toString() + "," + j.toString() + `);">Equipment</a>
+          <a class="NavigationButton noselect" href="javascript:void(0)" onclick="transition('skill_tree',` + i.toString() + "," + j.toString() + `);">Skill Tree</a>
           </div>
           `;
 
         }
+
+        navigation_bar += `</div>`
+
       }
 
       // Complete the navigation bar
